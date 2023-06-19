@@ -1,18 +1,22 @@
-import Header from './Header/Header';
-import UserInput from './UserInput/UserInput';
-import ResultTable from './ResultTable/ResultTable';
+import Header from "./Header/Header";
+import UserInput from "./UserInput/UserInput";
+import ResultTable from "./ResultTable/ResultTable";
+import { useState } from "react";
 
 function App() {
+  const [userInput, setUserInput] = useState(null);
+
   const calculateHandler = (userInput) => {
-    // Should be triggered when form is submitted
-    // You might not directly want to bind it to the submit event on the form though...
+    setUserInput(userInput);
+  };
 
-    const yearlyData = []; // per-year results
+  const yearlyData = []; // per-year results
 
-    let currentSavings = +userInput['current-savings']; // feel free to change the shape of this input object!
-    const yearlyContribution = +userInput['yearly-contribution']; // as mentioned: feel free to change the shape...
-    const expectedReturn = +userInput['expected-return'] / 100;
-    const duration = +userInput['duration'];
+  if (userInput) {
+    let currentSavings = userInput["current-savings"]; // feel free to change the shape of this input object!
+    const yearlyContribution = userInput["yearly-contribution"]; // as mentioned: feel free to change the shape...
+    const expectedReturn = userInput["expected-return"] / 100;
+    const duration = userInput["duration"];
 
     // The below code calculates yearly results (total savings, interest etc)
     for (let i = 0; i < duration; i++) {
@@ -26,15 +30,20 @@ function App() {
         yearlyContribution: yearlyContribution,
       });
     }
-
-    // do something with yearlyData ...
-  };
+  }
 
   return (
     <div>
       <Header />
-      <UserInput />
-      <ResultTable />
+      <UserInput onCalculate={calculateHandler} />
+
+      {!userInput && <p>No data yet.</p>}
+      {userInput && (
+        <ResultTable
+          data={yearlyData}
+          initialInvestment={userInput["current-savings"]}
+        />
+      )}
     </div>
   );
 }

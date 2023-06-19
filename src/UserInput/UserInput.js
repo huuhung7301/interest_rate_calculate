@@ -1,18 +1,18 @@
 import { useState } from "react";
 
 const initialUserInput = {
-  "current-saving": 10000,
+  "current-savings": 10000,
   "yearly-contribution": 1200,
   "expected-return": 7,
-  duration: 10,
+  'duration': 10,
 };
 
-const UserInput = () => {
+const UserInput = (props) => {
   const [userInput, setUserInput] = useState(initialUserInput);
 
   const onSubmitHandler = (event) => {
     event.preventDefault();
-    console.log("onSubmit");
+    props.onCalculate(userInput);
   };
 
   const onResetHandler = () => {
@@ -38,9 +38,9 @@ const UserInput = () => {
               type="number"
               id="current-savings"
               onChange={(event) =>
-                onInputChange("current-saving", event.target.value)
+                onInputChange("current-savings", event.target.value)
               }
-              value={userInput['current-saving']}
+              value={userInput['current-savings']}
             />
           </p>
           <p>
