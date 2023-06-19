@@ -37,7 +37,7 @@ function App() {
       <Header />
       <UserInput onCalculate={calculateHandler} />
 
-      {!userInput && <p>No data yet.</p>}
+      {!userInput && <p style={{textAlign: 'center'}}>No data yet.</p>}
       {userInput && (
         <ResultTable
           data={yearlyData}
